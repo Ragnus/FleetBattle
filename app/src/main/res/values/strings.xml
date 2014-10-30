@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FleetBattle</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="splash_content">Fleet Battle wird geladen...</string>
+    <string name="title_activity_main_menu">MainMenuActivity</string>
+
+</resources>
