@@ -158,6 +158,7 @@ public class BasicEngineTest extends TestCase {
 
         assertTrue(fleet.isEmpty());
         assertTrue(fleet.isDestroyed());
+        assertFalse(fleet.isReadyToFight());
 
         Ship ship = new Ship(1, Orientation.HORIZONTAL);
         fleet.addShip(ship);
@@ -166,11 +167,18 @@ public class BasicEngineTest extends TestCase {
 
         assertFalse(fleet.isEmpty());
         assertFalse(fleet.isDestroyed());
+        assertTrue(fleet.isReadyToFight());
 
         fleet.shootAt(1, 1, 1);
         assertFalse(fleet.isEmpty());
         assertTrue(fleet.isDestroyed());
 
+        ship = new Ship(5, Orientation.HORIZONTAL);
+        fleet.addShip(ship);
+        assertFalse(fleet.isReadyToFight());
+
+        ship.moveToPosition(4, 3);
+        assertTrue(fleet.isReadyToFight());
     }
 
     public void testBattleField() throws Exception {

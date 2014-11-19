@@ -41,4 +41,12 @@ public class Fleet {
 
         return false;
     }
+
+    public boolean isReadyToFight() {
+        if (isEmpty()) return false;
+        for (Ship ship : getShips()) {
+            if (ship.isAtHarbour()) return false;
+        }
+        return true;
+    }
 }
