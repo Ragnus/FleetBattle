@@ -19,12 +19,12 @@ public class Ship {
         for (int i = 0; i < size; i++) segments.add(new Segment());
     }
 
-    public ArrayList<Segment> getSegments(){
+    public ArrayList<Segment> getSegments() {
         return segments;
     }
 
-    public int getSize(){
-        return segments.size();
+    public int getSize() {
+        return getSegments().size();
     }
 
     public Orientation getOrientation() {
@@ -32,7 +32,6 @@ public class Ship {
     }
 
     public void flip() {
-        flipSegmentsAroundCenter();
         switch (orientation) {
             case HORIZONTAL:
                 orientation = Orientation.VERTICAL;
@@ -41,8 +40,10 @@ public class Ship {
                 orientation = Orientation.HORIZONTAL;
                 break;
             default:
-                throw new RuntimeException("Orientierung nicht implementiert : " + orientation);
+                throw new RuntimeException("Orientation not implemented : " + orientation);
         }
+        flipSegmentsAroundCenter();
+
     }
 
     private void flipSegmentsAroundCenter() {
@@ -52,8 +53,8 @@ public class Ship {
 
     private void flipSegmentsAroundSegment(int segmentNr) {
 
-        for (int i = 0; i < segments.size(); i++) {
-            Segment segment = segments.get(i);
+        for (int i = 0; i < getSegments().size(); i++) {
+            Segment segment = getSegments().get(i);
 
             if (i != segmentNr && segment.isPositioned()) {
                 int offset = segmentNr - i;
@@ -68,7 +69,7 @@ public class Ship {
                         offsetY = -offset;
                         break;
                     default:
-                        throw new RuntimeException("Orientierung nicht implementiert : " + orientation);
+                        throw new RuntimeException("Orientation not implemented : " + orientation);
                 }
                 segment.setPositionByOffset(offsetX, offsetY);
             }
@@ -78,9 +79,62 @@ public class Ship {
     }
 
     public boolean isSunken() {
-        for (Segment segment : segments) {
+        for (Segment segment : getSegments()) {
             if (!segment.isHit()) return false;
         }
         return true;
+    }
+
+    public void moveToPosition(int x, int y) {
+        int xFactor, yFactor;
+        switch (orientation) {
+            case HORIZONTAL:
+                xFactor = 1;
+                yFactor = 0;
+                break;
+            case VERTICAL:
+                xFactor = 0;
+                yFactor = 1;
+                break;
+            default:
+                throw new RuntimeException("Orientation not implemented : " + orientation);
+        }
+
+        for (int i = 0; i < getSegments().size(); i++) {
+            Segment segment = getSegments().get(i);
+            segment.setX(x + (i * xFactor));
+            segment.setY(y + (i * yFactor));
+        }
+
+    }
+
+    public void returnToHarbour() {
+        for (Segment segment : getSegments()) {
+            segment.setPositionToUnset();
+        }
+    }
+
+    public boolean isAtHarbour() {
+        for (Segment segment : getSegments()) {
+            if (segment.isPositioned()) return false;
+        }
+        return true;
+    }
+
+    public boolean isOnBattleField() {
+        return !isAtHarbour();
+    }
+
+    public boolean setHit(int x, int y, int roundNr) {
+        for (Segment segment : getSegments()) {
+            int xPos = segment.getX();
+            int yPos = segment.getY();
+            boolean isNotHit = !segment.isHit();
+            if (x == xPos && y == yPos && isNotHit) {
+                segment.setHitAtRoundNr(roundNr);
+                return true;
+            }
+        }
+        return false;
     }
 }

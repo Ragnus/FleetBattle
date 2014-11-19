@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Schlachtfeld zum Setzen und Kämpfen.
  */
 public class BattleField {
-
+    public static final int MIN_ROUND_NR_TO_SHOOT = 1;
     private final Fleet fleet;
     private final ArrayList<Segment> shots;
 
@@ -20,8 +20,11 @@ public class BattleField {
         return fleet;
     }
 
-    public void shootAt(int x, int y, int roundNr){
-        shots.add(new Segment(x,y,roundNr));
+    public boolean shootAt(int x, int y, int roundNr) {
+        if (roundNr < MIN_ROUND_NR_TO_SHOOT)
+            throw new RuntimeException("Treffer können erst ab Runde " + MIN_ROUND_NR_TO_SHOOT + " erfolgen");
+        shots.add(new Segment(x, y, roundNr));
+        return getFleet().shootAt(x, y, roundNr);
     }
 
     public ArrayList<Segment> getShots() {

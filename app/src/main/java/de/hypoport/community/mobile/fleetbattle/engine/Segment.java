@@ -72,6 +72,11 @@ public class Segment {
         setYbyOffset(offsetY);
     }
 
+    public void setPositionToUnset() {
+        setX(NO_POSITION);
+        setY(NO_POSITION);
+    }
+
     public boolean isHit() {
         return hitAtRoundNr != NOT_HIT_ROUND_NR;
     }

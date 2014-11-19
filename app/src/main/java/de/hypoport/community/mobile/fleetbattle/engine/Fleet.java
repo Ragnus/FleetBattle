@@ -18,10 +18,27 @@ public class Fleet {
         ships.add(ship);
     }
 
+    public ArrayList<Ship> getShips() {
+        return ships;
+    }
+
+    public boolean isEmpty() {
+        return ships.isEmpty();
+    }
+
     public boolean isDestroyed() {
         for (Ship ship : ships) {
             if (!ship.isSunken()) return false;
         }
         return true;
+    }
+
+    public boolean shootAt(int x, int y, int roundNr) {
+
+        for (Ship ship : getShips()) {
+            if (ship.setHit(x, y, roundNr)) return true;
+        }
+
+        return false;
     }
 }
