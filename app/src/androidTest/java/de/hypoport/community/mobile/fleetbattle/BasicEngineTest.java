@@ -106,8 +106,11 @@ public class BasicEngineTest extends TestCase {
         ship = new Ship(2, Orientation.HORIZONTAL);
         assertEquals(ship.getSize(), 2);
         assertTrue(ship.isAtHarbour());
+        assertFalse(ship.isOnBattleField());
 
         ship.moveToPosition(1, 1);
+        assertTrue(ship.isOnBattleField());
+
         int[] xCoordinates = {1, 2};
         int[] yCoordinates = {1, 1};
 

@@ -31,7 +31,7 @@ public class Ship {
         return orientation;
     }
 
-    public void flip() {
+    public Ship flip() {
         switch (orientation) {
             case HORIZONTAL:
                 orientation = Orientation.VERTICAL;
@@ -43,7 +43,7 @@ public class Ship {
                 throw new RuntimeException("Orientation not implemented : " + orientation);
         }
         flipSegmentsAroundCenter();
-
+        return this;
     }
 
     private void flipSegmentsAroundCenter() {
@@ -125,12 +125,24 @@ public class Ship {
         return !isAtHarbour();
     }
 
+    private boolean isSegmentAtLocation(int x, int y, Segment segment) {
+        int xPos = segment.getX();
+        int yPos = segment.getY();
+        boolean isNotHit = !segment.isHit();
+        return (x == xPos && y == yPos && isNotHit);
+    }
+
+    public boolean isAtLocation(int x, int y) {
+        for (Segment segment : getSegments()) {
+            if (isSegmentAtLocation(x, y, segment)) return true;
+        }
+        return false;
+
+    }
+
     public boolean setHit(int x, int y, int roundNr) {
         for (Segment segment : getSegments()) {
-            int xPos = segment.getX();
-            int yPos = segment.getY();
-            boolean isNotHit = !segment.isHit();
-            if (x == xPos && y == yPos && isNotHit) {
+            if (isSegmentAtLocation(x, y, segment)) {
                 segment.setHitAtRoundNr(roundNr);
                 return true;
             }

@@ -49,4 +49,12 @@ public class Fleet {
         }
         return true;
     }
+
+    public boolean isShipAtLocation(int x, int y) {
+        for (Ship ship : getShips()) {
+            if (ship.isAtLocation(x, y)) return true;
+        }
+        return false;
+
+    }
 }
