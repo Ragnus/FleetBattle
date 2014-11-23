@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Ship {
 
-    private final ArrayList<Segment> segments = new ArrayList<Segment>();
+    private final ArrayList<Segment> segments = new ArrayList<>();
     private Orientation orientation;
 
     public Ship(int size, Orientation orientation) {

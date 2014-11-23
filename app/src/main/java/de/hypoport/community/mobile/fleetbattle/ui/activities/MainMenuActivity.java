@@ -3,6 +3,7 @@ package de.hypoport.community.mobile.fleetbattle.ui.activities;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,6 +49,11 @@ public class MainMenuActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onStartSinglePlayerGame(View view) {
+        Intent gameActivity = new Intent(getApplication(), GameActivity.class);
+        startActivity(gameActivity);
     }
 
     /**
