@@ -1,7 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+//include 'hypoport.gradle'
+apply plugin: 'maven'
 
 buildscript {
     repositories {
+        mavenLocal()
+        maven {url "http://nexus-beta.hypoport.local/nexus/content/groups/OMCProjectGroup"}
         jcenter()
     }
     dependencies {
@@ -14,6 +18,8 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
+        maven {url "http://nexus-beta.hypoport.local/nexus/content/groups/OMCProjectGroup"}
         jcenter()
     }
 }
