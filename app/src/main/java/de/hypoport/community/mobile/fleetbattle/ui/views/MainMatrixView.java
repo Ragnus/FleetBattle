@@ -28,21 +28,20 @@ public class MainMatrixView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        int width = canvas.getWidth();
-        int height = canvas.getHeight();
+        drawBorder(canvas);
+        drawRaster(canvas);
+    }
 
+    private void drawBorder(Canvas canvas) {
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(4);
         paint.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(0, 0, width, height, paint);
-/*
-        paint.setColor(Color.GREEN);
-        canvas.drawRect(0, 0, width, height, paint);
+        canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
+    }
 
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(1);
-        canvas.drawRect(20, 20, 300, 300, paint);
-*/
+    private void drawRaster(Canvas canvas) {
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
 
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(4);
@@ -51,6 +50,5 @@ public class MainMatrixView extends View {
             canvas.drawLine(width / 10 * i, 0, width / 10 * i, height, paint);
             canvas.drawLine(0, height / 10 * i, width, height / 10 * i, paint);
         }
-
     }
 }

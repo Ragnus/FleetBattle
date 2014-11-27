@@ -12,22 +12,18 @@ import de.hypoport.community.mobile.fleetbattle.ui.views.MainMatrixView;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainMatrixFragment extends Fragment {
+public class PlacementFragment extends Fragment {
+
+    public static final String TAG = "placement";
 
     MainMatrixView matrixView;
 
-    public MainMatrixFragment() {
+    public PlacementFragment() {
     }
 
-    /**
-     * Returns Instance of MainMatrixFragment
-     *
-     * @return Instance of MainMatrixFragment
-     */
-    public static MainMatrixFragment getInstance() {
-        MainMatrixFragment fragment = new MainMatrixFragment();
-        fragment.setRetainInstance(true);
-        return fragment;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -37,10 +33,6 @@ public class MainMatrixFragment extends Fragment {
         return _view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
