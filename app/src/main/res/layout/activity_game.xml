@@ -11,5 +11,5 @@
         android:name="de.hypoport.community.mobile.fleetbattle.ui.fragments.PlacementFragment"
         android:id="@+id/placement_fragment"
         android:layout_gravity="left|top"
-        tools:layout="@layout/fragment_game" />
+        tools:layout="@layout/fragment_placement" />
 </LinearLayout>

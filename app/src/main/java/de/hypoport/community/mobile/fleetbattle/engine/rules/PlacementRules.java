@@ -1,6 +1,7 @@
 package de.hypoport.community.mobile.fleetbattle.engine.rules;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import de.hypoport.community.mobile.fleetbattle.engine.Ship;
 
@@ -21,7 +22,7 @@ public interface PlacementRules {
 
     public int getMaxShipSize();
 
-    public ArrayList<ShipPattern> getShipPatterns();
+    public Collection<ShipPattern> getShipPatterns();
 
     public boolean isPositionGoodForPlacing(Ship ship);
 

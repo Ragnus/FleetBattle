@@ -1,6 +1,7 @@
 package de.hypoport.community.mobile.fleetbattle.engine.rules.standard;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import de.hypoport.community.mobile.fleetbattle.engine.Fleet;
 import de.hypoport.community.mobile.fleetbattle.engine.Orientation;
@@ -85,7 +86,7 @@ public class PlacementRuleEngine implements PlacementRules {
     }
 
     @Override
-    public ArrayList<ShipPattern> getShipPatterns() {
+    public Collection<ShipPattern> getShipPatterns() {
         ArrayList<ShipPattern> shipPatterns = new ArrayList<ShipPattern>();
         shipPatterns.add(new ShipPattern(5, Orientation.HORIZONTAL, getMaxAmountOfShipSize(5)));
         shipPatterns.add(new ShipPattern(4, Orientation.HORIZONTAL, getMaxAmountOfShipSize(4)));
