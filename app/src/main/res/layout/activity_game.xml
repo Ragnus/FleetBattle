@@ -6,9 +6,10 @@
     tools:ignore="MergeRootFrame" >
 
     <fragment
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:name="de.hypoport.community.mobile.fleetbattle.ui.fragments.PlacementFragment"
         android:id="@+id/placement_fragment"
-        android:layout_gravity="left|top" />
+        android:layout_gravity="left|top"
+        tools:layout="@layout/fragment_game" />
 </LinearLayout>
