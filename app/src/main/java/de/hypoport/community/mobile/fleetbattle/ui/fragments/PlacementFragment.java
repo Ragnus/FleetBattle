@@ -9,9 +9,8 @@ import android.view.ViewGroup;
 import java.util.Collection;
 
 import de.hypoport.community.mobile.fleetbattle.R;
-import de.hypoport.community.mobile.fleetbattle.engine.Orientation;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipPattern;
-import de.hypoport.community.mobile.fleetbattle.ui.layouts.HarborLayout;
+import de.hypoport.community.mobile.fleetbattle.ui.views.harbor.HarborView;
 import de.hypoport.community.mobile.fleetbattle.ui.views.MainMatrixView;
 
 import static java.util.Arrays.asList;
@@ -23,11 +22,16 @@ public class PlacementFragment extends Fragment {
 
     public static final String TAG = "placement";
 
-    Collection<ShipPattern> shipPatterns = asList(new ShipPattern(3, Orientation.HORIZONTAL, 3));
+    Collection<ShipPattern> shipPatterns = asList(
+            ShipPattern.battleship(1),
+            ShipPattern.destroyer(2),
+            ShipPattern.cruiser(3),
+            ShipPattern.submarine(4)
+    );
 
     MainMatrixView matrixView;
 
-    HarborLayout  harborLayout;
+    HarborView harborView;
 
     public PlacementFragment() {
     }
@@ -41,9 +45,8 @@ public class PlacementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View placementView = inflater.inflate(R.layout.fragment_placement, container, false);
         matrixView = (MainMatrixView) placementView.findViewById(R.id.main_matrix);
-        harborLayout = (HarborLayout) placementView.findViewById(R.id.harbor);
-
-        harborLayout.setShipPatterns(shipPatterns);
+        harborView = (HarborView) placementView.findViewById(R.id.harbor);
+        harborView.setShipPatterns(shipPatterns);
 
         return placementView;
     }

@@ -1,6 +1,10 @@
 package de.hypoport.community.mobile.fleetbattle.engine;
 
+import com.google.common.base.Optional;
+
 import java.util.ArrayList;
+
+import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType;
 
 /**
  * Created by Ragnus on 17.11.2014.
@@ -9,14 +13,20 @@ public class Ship {
 
     private final ArrayList<Segment> segments = new ArrayList<>();
     private Orientation orientation;
+    private final ShipType type;
 
-    public Ship(int size, Orientation orientation) {
+    public Ship(ShipType type, Optional<Orientation> orientation) {
+        this.type = type;
 
-        if (size < 1) throw new RuntimeException("Die Schiffsgröße muss mindestens 1 sein");
-        if (orientation == null) throw new RuntimeException("Orientierung ist NULL");
-        this.orientation = orientation;
+        if (orientation.isPresent()) {
+            this.orientation = orientation.get();
+        } else {
+            throw new RuntimeException("Orientation is not set");
+        }
 
-        for (int i = 0; i < size; i++) segments.add(new Segment());
+        for (int i = 0; i < type.size; i++) {
+            segments.add(new Segment());
+        }
     }
 
     public ArrayList<Segment> getSegments() {
@@ -24,7 +34,11 @@ public class Ship {
     }
 
     public int getSize() {
-        return getSegments().size();
+        return type.size;
+    }
+
+    public ShipType getType() {
+        return type;
     }
 
     public Orientation getOrientation() {

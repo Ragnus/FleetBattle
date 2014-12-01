@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import de.hypoport.community.mobile.fleetbattle.engine.Fleet;
-import de.hypoport.community.mobile.fleetbattle.engine.Orientation;
 import de.hypoport.community.mobile.fleetbattle.engine.Segment;
 import de.hypoport.community.mobile.fleetbattle.engine.Ship;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.PlacementRules;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipPattern;
+import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType;
 
 /**
  * Created by Ragnus on 19.11.2014.
@@ -29,23 +29,23 @@ public class PlacementRuleEngine implements PlacementRules {
         this.fleet = fleet;
     }
 
-    private int getMaxAmountOfShipSize(int size) {
+    private int getMaxAmountOfShip(ShipType type) {
         int amount;
-        switch (size) {
-            case 2:
+        switch (type) {
+            case SUBMARINE:
                 amount = 4;
                 break;
-            case 3:
+            case DESTROYER:
                 amount = 3;
                 break;
-            case 4:
+            case CRUISER:
                 amount = 2;
                 break;
-            case 5:
+            case BATTLESHIP:
                 amount = 1;
                 break;
             default:
-                throw new RuntimeException(String.format("Schiffe dürfen nur %d - %d Größe haben. Angefordert wurde Größe %d", getMinShipSize(), getMaxShipSize(), size));
+                throw new RuntimeException(String.format("Schiffe dürfen nur %d - %d Größe haben. Angefordert wurde Größe %d", getMinShipSize(), getMaxShipSize(), type));
 
         }
         return amount;
@@ -88,10 +88,10 @@ public class PlacementRuleEngine implements PlacementRules {
     @Override
     public Collection<ShipPattern> getShipPatterns() {
         ArrayList<ShipPattern> shipPatterns = new ArrayList<ShipPattern>();
-        shipPatterns.add(new ShipPattern(5, Orientation.HORIZONTAL, getMaxAmountOfShipSize(5)));
-        shipPatterns.add(new ShipPattern(4, Orientation.HORIZONTAL, getMaxAmountOfShipSize(4)));
-        shipPatterns.add(new ShipPattern(3, Orientation.HORIZONTAL, getMaxAmountOfShipSize(3)));
-        shipPatterns.add(new ShipPattern(2, Orientation.HORIZONTAL, getMaxAmountOfShipSize(2)));
+        shipPatterns.add(ShipPattern.battleship(getMaxAmountOfShip(ShipType.BATTLESHIP)));
+        shipPatterns.add(ShipPattern.cruiser(getMaxAmountOfShip(ShipType.CRUISER)));
+        shipPatterns.add(ShipPattern.destroyer(getMaxAmountOfShip(ShipType.DESTROYER)));
+        shipPatterns.add(ShipPattern.submarine(getMaxAmountOfShip(ShipType.SUBMARINE)));
         return shipPatterns;
     }
 
@@ -131,6 +131,6 @@ public class PlacementRuleEngine implements PlacementRules {
         for (Ship compare : getFleet().getShips()) {
             if (compare.getSize() == size) numberOfShipsSameSize++;
         }
-        return numberOfShipsSameSize < getMaxAmountOfShipSize(size);
+        return numberOfShipsSameSize < getMaxAmountOfShip(ship.getType());
     }
 }

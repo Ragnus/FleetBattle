@@ -16,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="0.6"
-        android:background="@android:color/transparent"></view>
+        android:background="@android:color/transparent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,18 +25,19 @@
         android:layout_weight="0.4"
         android:orientation="horizontal">
 
-        <de.hypoport.community.mobile.fleetbattle.ui.layouts.HarborLayout
+        <de.hypoport.community.mobile.fleetbattle.ui.views.harbor.HarborView
             android:id="@+id/harbor"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_weight="6"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.8"
             android:orientation="horizontal"
             />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="GO" />
