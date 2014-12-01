@@ -2,6 +2,7 @@ package de.hypoport.community.mobile.fleetbattle.ui.views.harbor;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,12 +11,12 @@ import android.widget.TextView;
 
 import de.hypoport.community.mobile.fleetbattle.R;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipPattern;
-import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType;
 
 /**
  * Created by Bozan on 27.11.2014.
  */
 public class ShipInHarborView extends LinearLayout {
+    private static final String TAG = ShipInHarborView.class.getSimpleName();
     private ShipPattern shipPattern;
     private View layoutView;
 
@@ -55,16 +56,20 @@ public class ShipInHarborView extends LinearLayout {
         switch (shipPattern.type) {
             case BATTLESHIP:
                 view = (ImageView) layoutView.findViewById(R.id.battleshipView);
+                Log.d(TAG, "Battleship view added");
                 break;
             case DESTROYER:
                 view = (ImageView) layoutView.findViewById(R.id.destroyerView);
+                Log.d(TAG, "Destroyer view added");
                 break;
             case CRUISER:
                 view = (ImageView) layoutView.findViewById(R.id.cruiserView);
+                Log.d(TAG, "Cruiser view added");
                 break;
             default:
                 // TODO Weitere Views basteln
                 view = new ImageView(getContext());
+                Log.d(TAG, "Default view added");
         }
         return view;
     }

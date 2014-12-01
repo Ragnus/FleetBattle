@@ -2,45 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/sea_background"
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/tvShipCount"
-        android:background="#FF0000"
-        android:layout_gravity="center_horizontal" />
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/plate_background"
+        android:gravity="center_horizontal"
+        android:textColor="#FCEC08"
+        android:textStyle="bold" />
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="8dp"
         android:id="@+id/battleshipView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:background="#00000000"
         android:src="@drawable/battleship"
-        android:background="#00FF99"
-        android:visibility="visible"
-        android:layout_gravity="center_horizontal" />
+        android:visibility="gone" />
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="8dp"
         android:id="@+id/destroyerView"
-        android:src="@drawable/destroyer"
-        android:background="#0099FF"
-        android:visibility="visible"
-        android:layout_gravity="center_horizontal" />
-
-    <ImageView
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:background="#00000000"
+        android:src="@drawable/destroyer"
+        android:visibility="gone" />
+
+    <ImageView
         android:id="@+id/cruiserView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:background="#00000000"
         android:src="@drawable/cruiser"
-        android:background="#999900"
-        android:visibility="visible"
-        android:layout_gravity="center_horizontal" />
+        android:visibility="gone" />
 </LinearLayout>
