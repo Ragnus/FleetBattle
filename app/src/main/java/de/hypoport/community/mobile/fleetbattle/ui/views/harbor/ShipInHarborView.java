@@ -47,30 +47,31 @@ public class ShipInHarborView extends LinearLayout {
         TextView tvShipCount = (TextView) layoutView.findViewById(R.id.tvShipCount);
         tvShipCount.setText("[" + shipPattern.numberOfShips + "]");
 
-        ImageView shipView = getViewForShip();
-        shipView.setVisibility(VISIBLE);
+        ImageView shipView = initShipView();
     }
 
-    private ImageView getViewForShip() {
-        ImageView view;
+    private ImageView initShipView() {
+        ImageView view = (ImageView) layoutView.findViewById(R.id.shipView);
         switch (shipPattern.type) {
             case BATTLESHIP:
-                view = (ImageView) layoutView.findViewById(R.id.battleshipView);
-                Log.d(TAG, "Battleship view added");
+                view.setImageResource(R.drawable.battleship);
                 break;
             case DESTROYER:
-                view = (ImageView) layoutView.findViewById(R.id.destroyerView);
-                Log.d(TAG, "Destroyer view added");
+                view.setImageResource(R.drawable.destroyer);
                 break;
             case CRUISER:
-                view = (ImageView) layoutView.findViewById(R.id.cruiserView);
-                Log.d(TAG, "Cruiser view added");
+                view.setImageResource(R.drawable.cruiser);
+                break;
+            case SUBMARINE:
+                view.setImageResource(R.drawable.submarine);
                 break;
             default:
-                // TODO Weitere Views basteln
-                view = new ImageView(getContext());
-                Log.d(TAG, "Default view added");
+                Log.e(TAG, "No View for type " + shipPattern.type);
         }
+//        view.setAdjustViewBounds(true); // set the ImageView bounds to match the Drawable's dimensions
+//        view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+//        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        view.setVisibility(VISIBLE);
         return view;
     }
 }
