@@ -13,7 +13,7 @@ public enum ShipType {
     SUBMARINE(2, "submarine");
 
     public final int size;
-    private String id;
+    public final String id;
 
     ShipType(int size, String id) {
         this.size = size;
