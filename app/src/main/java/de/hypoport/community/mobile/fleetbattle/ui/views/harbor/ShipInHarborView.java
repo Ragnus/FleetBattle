@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,11 +14,14 @@ import android.widget.TextView;
 
 import de.hypoport.community.mobile.fleetbattle.R;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipPattern;
+import de.hypoport.community.mobile.fleetbattle.ui.utilities.ShipResourceResolver;
+
+import static de.hypoport.community.mobile.fleetbattle.ui.utilities.ShipResourceResolver.getResource;
 
 /**
  * Created by Bozan on 27.11.2014.
  */
-public class ShipInHarborView extends LinearLayout implements View.OnLongClickListener {
+public class ShipInHarborView extends LinearLayout implements View.OnTouchListener {
     private static final String TAG = ShipInHarborView.class.getSimpleName();
     private ShipPattern shipPattern;
     private View layoutView;
@@ -54,33 +58,18 @@ public class ShipInHarborView extends LinearLayout implements View.OnLongClickLi
 
     private ImageView initShipView() {
         ImageView view = (ImageView) layoutView.findViewById(R.id.shipView);
-        switch (shipPattern.type) {
-            case BATTLESHIP:
-                view.setImageResource(R.drawable.battleship);
-                break;
-            case DESTROYER:
-                view.setImageResource(R.drawable.destroyer);
-                break;
-            case CRUISER:
-                view.setImageResource(R.drawable.cruiser);
-                break;
-            case SUBMARINE:
-                view.setImageResource(R.drawable.submarine);
-                break;
-            default:
-                Log.e(TAG, "No View for type " + shipPattern.type);
-        }
+        view.setImageResource(getResource(shipPattern.type));
 //        view.setAdjustViewBounds(true); // set the ImageView bounds to match the Drawable's dimensions
 //        view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         view.setTag(shipPattern.type);
         view.setScaleType(ImageView.ScaleType.FIT_START);
         view.setVisibility(VISIBLE);
-        view.setOnLongClickListener(this);
+        view.setOnTouchListener(this);
         return view;
     }
 
     @Override
-    public boolean onLongClick(View v) {
+    public boolean onTouch(View v, MotionEvent event) {
         ClipData.Item item = new ClipData.Item(shipPattern.type.toString());
         String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
         ClipData dragData = new ClipData(shipPattern.type.toString(), mimeTypes, item);
