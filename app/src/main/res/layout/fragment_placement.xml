@@ -16,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="0.6"
-        android:background="@drawable/open_sea_background" />
+        android:background="@drawable/sea_background_tiles" />
     <!-- android:background="@android:color/transparent"-->
 
 

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import de.hypoport.community.mobile.fleetbattle.engine.Orientation;
 import de.hypoport.community.mobile.fleetbattle.engine.Segment;
 import de.hypoport.community.mobile.fleetbattle.engine.Ship;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType;
+import de.hypoport.community.mobile.fleetbattle.ui.views.harbor.ShipInHarborView;
 
 import static com.google.common.base.Optional.of;
 import static de.hypoport.community.mobile.fleetbattle.ui.utilities.ShipResourceResolver.getResource;
@@ -93,6 +95,12 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
                 ShipType ship = getDroppedShipType(event);
                 ships.add(createDropShip(Orientation.VERTICAL, ship, new Field(event.getX(), event.getY())));
                 Log.d(TAG, "ACTION_DROP ClipData: " + event.getClipData() + " Ship: " + ship);
+
+
+                View view = (View) event.getLocalState();
+                ShipInHarborView shipInHarborView = (ShipInHarborView) view.getParent().getParent();
+                shipInHarborView.decrementNumberOfShips();
+
                 invalidate();
                 break;
         }
@@ -117,20 +125,11 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
         Bitmap map = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(map);
 
-        drawBackground(canvas);
         drawBorder(canvas);
         drawRaster(canvas);
         drawShips(canvas);
 
         return map;
-    }
-
-    // TODO Geht noch nicht, besser via XML Setzen -> http://stackoverflow.com/questions/1311042/android-tile-bitmap
-    private void drawBackground(Canvas canvas) {
-        Bitmap tile = BitmapFactory.decodeResource(getResources(), R.drawable.sea_background_tile);
-        BitmapDrawable bg = new BitmapDrawable(getResources(), tile);
-        bg.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-        bg.draw(canvas);
     }
 
     private void drawBorder(Canvas canvas) {
@@ -156,7 +155,7 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), getResource(ship.getType()));
 
             // Rotate Image
-            if(ship.getOrientation() == Orientation.HORIZONTAL) {
+            if (ship.getOrientation() == Orientation.HORIZONTAL) {
                 Matrix matrix = new Matrix();
                 matrix.postRotate(90);
                 bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
@@ -180,7 +179,7 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN){
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             Log.d(TAG, "ON_TOUCH event FIELD :" + new Field(event.getX(), event.getY()));
         }
         return true;
@@ -197,8 +196,11 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
         }
 
         private Field(float x, float y) {
-            this(Math.min(FILD_SIZE - 1, (int) (x / FILD_SIZE / 10)),
-                    Math.min(FILD_SIZE - 1, (int) (y / FILD_SIZE / 10)));
+            float scaleX = x * WIDTH / getWidth();
+            float scaleY = y * HEIGHT / getHeight();
+
+            this.x = Math.min(FILD_SIZE - 1, (int) (scaleX / FILD_SIZE / 10));
+            this.y = Math.min(FILD_SIZE - 1, (int) (scaleY / FILD_SIZE / 10));
         }
 
         @Override

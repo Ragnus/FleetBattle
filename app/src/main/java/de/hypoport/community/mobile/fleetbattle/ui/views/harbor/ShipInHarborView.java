@@ -25,6 +25,8 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
     private static final String TAG = ShipInHarborView.class.getSimpleName();
     private ShipPattern shipPattern;
     private View layoutView;
+    private int numberOfShips;
+    private TextView tvShipCount;
 
 
     public ShipInHarborView(Context context) {
@@ -49,9 +51,10 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
 
     public void setShipPattern(ShipPattern shipPattern) {
         this.shipPattern = shipPattern;
+        numberOfShips = shipPattern.numberOfShips;
 
-        TextView tvShipCount = (TextView) layoutView.findViewById(R.id.tvShipCount);
-        tvShipCount.setText("[" + shipPattern.numberOfShips + "]");
+        tvShipCount = (TextView) layoutView.findViewById(R.id.tvShipCount);
+        updateNumberOfShips();
 
         initShipView();
     }
@@ -70,6 +73,9 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (numberOfShips <= 0)
+            return false;
+
         ClipData.Item item = new ClipData.Item(shipPattern.type.toString());
         String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
         ClipData dragData = new ClipData(shipPattern.type.toString(), mimeTypes, item);
@@ -77,12 +83,26 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
         View.DragShadowBuilder dragShadow = new DragShadowBuilder(v);
 
         // Starts the drag
-        v.startDrag(dragData,  // the data to be dragged
+        boolean dropSuccess = v.startDrag(dragData,  // the data to be dragged
                 dragShadow,  // the drag shadow builder
-                null,      // no need to use local data
+                v,
                 0          // flags (not currently used, set to 0)
         );
-        return true;
+
+        Log.d(TAG, "D&D Result: " + dropSuccess);
+
+
+
+        return dropSuccess;
+    }
+
+    public void decrementNumberOfShips() {
+        numberOfShips--;
+        updateNumberOfShips();
+    }
+
+    private void updateNumberOfShips() {
+        tvShipCount.setText("[" + this.numberOfShips + "]");
     }
 
 }
