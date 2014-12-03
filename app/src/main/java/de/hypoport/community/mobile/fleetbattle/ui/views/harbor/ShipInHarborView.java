@@ -85,7 +85,7 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
         // Starts the drag
         boolean dropSuccess = v.startDrag(dragData,  // the data to be dragged
                 dragShadow,  // the drag shadow builder
-                v,
+                this,
                 0          // flags (not currently used, set to 0)
         );
 
@@ -99,6 +99,10 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
     public void decrementNumberOfShips() {
         numberOfShips--;
         updateNumberOfShips();
+        if (numberOfShips==0){
+            View ship = findViewById(R.id.shipView);
+            ship.setVisibility(GONE);
+        }
     }
 
     private void updateNumberOfShips() {

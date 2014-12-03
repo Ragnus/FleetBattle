@@ -97,8 +97,7 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
                 Log.d(TAG, "ACTION_DROP ClipData: " + event.getClipData() + " Ship: " + ship);
 
 
-                View view = (View) event.getLocalState();
-                ShipInHarborView shipInHarborView = (ShipInHarborView) view.getParent().getParent();
+                ShipInHarborView shipInHarborView = (ShipInHarborView) event.getLocalState();
                 shipInHarborView.decrementNumberOfShips();
 
                 invalidate();
