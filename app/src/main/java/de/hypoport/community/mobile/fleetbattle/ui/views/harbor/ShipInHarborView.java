@@ -101,7 +101,7 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
         updateNumberOfShips();
         if (numberOfShips==0){
             View ship = findViewById(R.id.shipView);
-            ship.setVisibility(GONE);
+            ship.setVisibility(INVISIBLE);
         }
     }
 
