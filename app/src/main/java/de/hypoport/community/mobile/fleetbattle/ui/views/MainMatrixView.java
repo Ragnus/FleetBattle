@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hypoport.community.mobile.fleetbattle.R;
+import de.hypoport.community.mobile.fleetbattle.engine.GameEngine;
 import de.hypoport.community.mobile.fleetbattle.engine.Orientation;
+import de.hypoport.community.mobile.fleetbattle.engine.Player;
 import de.hypoport.community.mobile.fleetbattle.engine.Segment;
 import de.hypoport.community.mobile.fleetbattle.engine.Ship;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType;
@@ -43,11 +45,14 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
 
     // TODO Aus der Gaming Engine
     public static final int FILD_SIZE = 10;
-    //MPi-Todo ship List in Fleet oder Gamedata oder ähnlich speichern
-    private List<Ship> ships = new ArrayList<>(asList(
-            createDropShip(Orientation.VERTICAL, ShipType.DESTROYER, new Field(5, 5)),
-            createDropShip(Orientation.HORIZONTAL, ShipType.BATTLESHIP, new Field(3, 8))
-    ));
+
+    private GameEngine gameEngine = GameEngine.getInstance();
+    private List<Ship> ships = gameEngine.getShipList(Player.LOCAL_PLAYER);
+
+// MPi-Todo    private List<Ship> shipsold =         new ArrayList<>(asList( createDropShip(Orientation.VERTICAL, ShipType.DESTROYER, new Field(5, 5)),
+//            createDropShip(Orientation.HORIZONTAL, ShipType.BATTLESHIP, new Field(3, 8))
+//
+//    ));
 
     Paint paint = new Paint();
 
@@ -72,6 +77,14 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
         setOnTouchListener(this);
     }
 
+    private Field createField(float x, float y) {
+        float scaleX = x * WIDTH / getWidth();
+        float scaleY = y * HEIGHT / getHeight();
+
+        return new Field(Math.min(FILD_SIZE - 1, (int) (scaleX / MainMatrixView.FILD_SIZE / 10)),
+                         Math.min(FILD_SIZE - 1, (int) (scaleY / MainMatrixView.FILD_SIZE / 10)));
+    }
+
     @Override
     public boolean onDrag(View v, DragEvent event) {
         switch (event.getAction()) {
@@ -87,14 +100,14 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
             case DragEvent.ACTION_DRAG_LOCATION:
                 // TODO Check Drop-Area
                 Log.d(TAG, "ACTION_DRAG_LOCATION X:" + event.getX() + " Y:" + event.getY());
-                Log.d(TAG, "FIELD :" + new Field(event.getX(), event.getY()));
+                Log.d(TAG, "FIELD :" + createField(event.getX(), event.getY()));
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
                 Log.d(TAG, "ACTION_DRAG_ENDED");
                 break;
             case DragEvent.ACTION_DROP:
                 ShipType ship = getDroppedShipType(event);
-                ships.add(createDropShip(Orientation.VERTICAL, ship, new Field(event.getX(), event.getY())));
+                ships.add(gameEngine.createDropShip(Orientation.VERTICAL, ship, createField(event.getX(), event.getY())));
                 Log.d(TAG, "ACTION_DROP ClipData: " + event.getClipData() + " Ship: " + ship);
 
 
@@ -180,47 +193,24 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            Log.d(TAG, "ON_TOUCH event FIELD :" + new Field(event.getX(), event.getY()));
+            Log.d(TAG, "ON_TOUCH event FIELD :" + createField(event.getX(), event.getY()));
         }
         return true;
     }
 
-    private class Field {
-
-        public final int x;
-        public final int y;
-
-        public Field(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        private Field(float x, float y) {
-            float scaleX = x * WIDTH / getWidth();
-            float scaleY = y * HEIGHT / getHeight();
-
-            this.x = Math.min(FILD_SIZE - 1, (int) (scaleX / FILD_SIZE / 10));
-            this.y = Math.min(FILD_SIZE - 1, (int) (scaleY / FILD_SIZE / 10));
-        }
-
-        @Override
-        public String toString() {
-            return "X:" + x + "/Y:" + y;
-        }
-
-    }
 
     // TODO Evtl. in Gameengine (Placement Engine)
-    private Ship createDropShip(Orientation orientation, ShipType type, Field center) {
-        Ship ship = new Ship(type, of(orientation));
-        ship.getSegments().clear();
-        for (int i = 0; i < type.size; i++) {
-            if (orientation == Orientation.HORIZONTAL) {
-                ship.getSegments().add(i, new Segment(center.x - type.size / 2 + i, center.y));
-            } else {
-                ship.getSegments().add(i, new Segment(center.x, center.y - type.size / 2 + i));
-            }
-        }
-        return ship;
-    }
+    // MPi-Todo
+//    private Ship createDropShip(Orientation orientation, ShipType type, Field center) {
+//        Ship ship = new Ship(type, of(orientation));
+//        ship.getSegments().clear();
+//        for (int i = 0; i < type.size; i++) {
+//            if (orientation == Orientation.HORIZONTAL) {
+//                ship.getSegments().add(i, new Segment(center.x - type.size / 2 + i, center.y));
+//            } else {
+//                ship.getSegments().add(i, new Segment(center.x, center.y - type.size / 2 + i));
+//            }
+//        }
+//        return ship;
+//    }
 }
