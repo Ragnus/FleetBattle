@@ -7,6 +7,7 @@ import de.hypoport.community.mobile.fleetbattle.engine.Fleet;
 import de.hypoport.community.mobile.fleetbattle.engine.Orientation;
 import de.hypoport.community.mobile.fleetbattle.engine.Segment;
 import de.hypoport.community.mobile.fleetbattle.engine.Ship;
+import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -61,20 +62,20 @@ public class BasicEngineTest extends TestCase {
     public void testShipConstruction() throws Exception {
         Ship ship;
         try {
-            ship = new Ship(0, Orientation.HORIZONTAL);
+            ship = new Ship(ShipType.BATTLESHIP, Orientation.HORIZONTAL);
             fail("Shipsize min Exception missing");
         } catch (RuntimeException e) {
             // success
         }
 
         try {
-            ship = new Ship(1, null);
+            ship = new Ship(ShipType.CRUISER, null);
             fail("Orientation not null Exception missing");
         } catch (RuntimeException e) {
             // success
         }
 
-        ship = new Ship(2, Orientation.VERTICAL);
+        ship = new Ship(ShipType.DESTROYER, Orientation.VERTICAL);
         assertEquals(ship.getSize(), 2);
         assertEquals(ship.getSize(), ship.getSegments().size());
         assertEquals(Orientation.VERTICAL, ship.getOrientation());
@@ -92,7 +93,7 @@ public class BasicEngineTest extends TestCase {
     }
 
     public void testShipFunctions() throws Exception {
-        Ship ship = new Ship(1, Orientation.HORIZONTAL);
+        Ship ship = new Ship(ShipType.SUBMARINE, Orientation.HORIZONTAL);
         assertEquals(ship.getSize(), 1);
         assertEquals(Orientation.HORIZONTAL, ship.getOrientation());
 
@@ -103,7 +104,7 @@ public class BasicEngineTest extends TestCase {
         assertEquals(Orientation.HORIZONTAL, ship.getOrientation());
 
         // todo Test Positioning
-        ship = new Ship(2, Orientation.HORIZONTAL);
+        ship = new Ship(ShipType.DESTROYER, Orientation.HORIZONTAL);
         assertEquals(ship.getSize(), 2);
         assertTrue(ship.isAtHarbour());
         assertFalse(ship.isOnBattleField());
@@ -137,7 +138,8 @@ public class BasicEngineTest extends TestCase {
         ship.returnToHarbour();
         assertTrue(ship.isAtHarbour());
 
-        ship = new Ship(2, Orientation.HORIZONTAL);
+        ship = new Ship(ShipType.DESTROYER, Orientation.HORIZONTAL);
+
         ship.moveToPosition(1, 1);
         assertFalse(ship.isSunken());
 
@@ -163,7 +165,7 @@ public class BasicEngineTest extends TestCase {
         assertTrue(fleet.isDestroyed());
         assertFalse(fleet.isReadyToFight());
 
-        Ship ship = new Ship(1, Orientation.HORIZONTAL);
+        Ship ship = new Ship(ShipType.BATTLESHIP, Orientation.HORIZONTAL);
         fleet.addShip(ship);
 
         ship.moveToPosition(1, 1);
@@ -176,7 +178,7 @@ public class BasicEngineTest extends TestCase {
         assertFalse(fleet.isEmpty());
         assertTrue(fleet.isDestroyed());
 
-        ship = new Ship(5, Orientation.HORIZONTAL);
+        ship = new Ship(ShipType.SUBMARINE, Orientation.HORIZONTAL);
         fleet.addShip(ship);
         assertFalse(fleet.isReadyToFight());
 
@@ -189,11 +191,11 @@ public class BasicEngineTest extends TestCase {
         Fleet fleet = new Fleet();
         BattleField battleField = new BattleField(fleet);
 
-        Ship ship = new Ship(1, Orientation.HORIZONTAL);
+        Ship ship = new Ship(ShipType.BATTLESHIP, Orientation.HORIZONTAL);
         fleet.addShip(ship);
         ship.moveToPosition(1, 1);
 
-        ship = new Ship(2, Orientation.VERTICAL);
+        ship = new Ship(ShipType.DESTROYER, Orientation.VERTICAL);
         fleet.addShip(ship);
         ship.moveToPosition(3, 3);
 
