@@ -43,6 +43,7 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
 
     // TODO Aus der Gaming Engine
     public static final int FILD_SIZE = 10;
+    //MPi-Todo ship List in Fleet oder Gamedata oder ähnlich speichern
     private List<Ship> ships = new ArrayList<>(asList(
             createDropShip(Orientation.VERTICAL, ShipType.DESTROYER, new Field(5, 5)),
             createDropShip(Orientation.HORIZONTAL, ShipType.BATTLESHIP, new Field(3, 8))
