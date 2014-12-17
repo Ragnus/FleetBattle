@@ -1,7 +1,5 @@
 package de.hypoport.community.mobile.fleetbattle.engine;
 
-import com.google.common.base.Optional;
-
 import java.util.ArrayList;
 
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType;
@@ -15,14 +13,9 @@ public class Ship {
     private Orientation orientation;
     private final ShipType type;
 
-    public Ship(ShipType type, Optional<Orientation> orientation) {
+    public Ship(ShipType type, Orientation orientation) {
         this.type = type;
-
-        if (orientation.isPresent()) {
-            this.orientation = orientation.get();
-        } else {
-            throw new RuntimeException("Orientation is not set");
-        }
+        this.orientation = orientation;
 
         for (int i = 0; i < type.size; i++) {
             segments.add(new Segment());

@@ -1,7 +1,5 @@
 package de.hypoport.community.mobile.fleetbattle.engine.rules;
 
-import com.google.common.base.Optional;
-
 import java.util.ArrayList;
 
 import de.hypoport.community.mobile.fleetbattle.engine.Orientation;
@@ -12,7 +10,7 @@ import de.hypoport.community.mobile.fleetbattle.engine.Ship;
  */
 public interface Shipyard {
 
-    public Ship buildShip(ShipType type, Optional<Orientation> orientation);
+    public Ship buildShip(ShipType type, Orientation orientation);
 
     public ArrayList<Ship> buildShips(ArrayList<ShipPattern> shipPatterns);
 }

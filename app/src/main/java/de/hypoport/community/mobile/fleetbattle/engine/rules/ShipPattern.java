@@ -1,7 +1,5 @@
 package de.hypoport.community.mobile.fleetbattle.engine.rules;
 
-import com.google.common.base.Optional;
-
 import de.hypoport.community.mobile.fleetbattle.engine.Orientation;
 
 import static de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType.BATTLESHIP;
@@ -14,14 +12,14 @@ import static de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType.SUB
  */
 public class ShipPattern {
 
-    public final Optional<Orientation> orientation;
+    public final Orientation orientation;
     public final ShipType type;
     public final int numberOfShips;
 
     public ShipPattern(ShipType type, Orientation orientation, int numberOfShips) {
         this.type = type;
         this.numberOfShips = numberOfShips;
-        this.orientation = Optional.fromNullable(orientation);
+        this.orientation = orientation;
     }
 
     public ShipPattern(ShipType type, int numberOfShips) {

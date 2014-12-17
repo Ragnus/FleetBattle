@@ -1,7 +1,5 @@
 package de.hypoport.community.mobile.fleetbattle.engine.rules.standard;
 
-import com.google.common.base.Optional;
-
 import java.util.ArrayList;
 
 import de.hypoport.community.mobile.fleetbattle.engine.Orientation;
@@ -16,7 +14,7 @@ import de.hypoport.community.mobile.fleetbattle.engine.rules.Shipyard;
 public class ShipFactory implements Shipyard {
 
     @Override
-    public Ship buildShip(ShipType type, Optional<Orientation> orientation) {
+    public Ship buildShip(ShipType type, Orientation orientation) {
         return new Ship(type, orientation);
     }
 

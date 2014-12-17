@@ -6,7 +6,6 @@ import java.util.List;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType;
 import de.hypoport.community.mobile.fleetbattle.ui.views.Field;
 
-import static com.google.common.base.Optional.of;
 import static java.util.Arrays.asList;
 
 /**
@@ -30,11 +29,12 @@ public class GameEngine {
     }
 
     public List<Ship> getShipList(Player player) {
+        //todo später lade die Liste der Schiffe, in Abhängigkeit zum Spieler
         return shipList;
     }
 
     public Ship createDropShip(Orientation orientation, ShipType type, Field center) {
-        Ship ship = new Ship(type, of(orientation));
+        Ship ship = new Ship(type, orientation);
         ship.getSegments().clear();
         for (int i = 0; i < type.size; i++) {
             if (orientation == Orientation.HORIZONTAL) {
