@@ -43,16 +43,11 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 1000;
 
-    // TODO Aus der Gaming Engine
+    // MPi-TODO Aus der Gaming Engine
     public static final int FILD_SIZE = 10;
 
     private GameEngine gameEngine = GameEngine.getInstance();
     private List<Ship> ships = gameEngine.getShipList(Player.LOCAL_PLAYER);
-
-// MPi-Todo    private List<Ship> shipsold =         new ArrayList<>(asList( createDropShip(Orientation.VERTICAL, ShipType.DESTROYER, new Field(5, 5)),
-//            createDropShip(Orientation.HORIZONTAL, ShipType.BATTLESHIP, new Field(3, 8))
-//
-//    ));
 
     Paint paint = new Paint();
 
@@ -197,20 +192,4 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
         }
         return true;
     }
-
-
-    // TODO Evtl. in Gameengine (Placement Engine)
-    // MPi-Todo
-//    private Ship createDropShip(Orientation orientation, ShipType type, Field center) {
-//        Ship ship = new Ship(type, of(orientation));
-//        ship.getSegments().clear();
-//        for (int i = 0; i < type.size; i++) {
-//            if (orientation == Orientation.HORIZONTAL) {
-//                ship.getSegments().add(i, new Segment(center.x - type.size / 2 + i, center.y));
-//            } else {
-//                ship.getSegments().add(i, new Segment(center.x, center.y - type.size / 2 + i));
-//            }
-//        }
-//        return ship;
-//    }
 }

@@ -25,6 +25,7 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
     private static final String TAG = ShipInHarborView.class.getSimpleName();
     private ShipPattern shipPattern;
     private View layoutView;
+    //MPi-Todo sollte auch nach GameEngine
     private int numberOfShips;
     private TextView tvShipCount;
 
