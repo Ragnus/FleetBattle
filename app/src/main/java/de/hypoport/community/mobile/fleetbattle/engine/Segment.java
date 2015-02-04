@@ -81,4 +81,12 @@ public class Segment {
         return hitAtRoundNr != NOT_HIT_ROUND_NR;
     }
 
+    @Override
+    public String toString() {
+        return "Segment{" +
+                "x=" + x +
+                ", y=" + y +
+                (hitAtRoundNr == NOT_HIT_ROUND_NR ? "" : ", hitAtRoundNr=" + hitAtRoundNr) +
+                '}';
+    }
 }

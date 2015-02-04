@@ -50,6 +50,7 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
     private List<Ship> ships = gameEngine.getShipList(Player.LOCAL_PLAYER);
 
     Paint paint = new Paint();
+    private ArrayList<Segment> dropMarks = new ArrayList<>();
 
     public MainMatrixView(Context context) {
         super(context);
@@ -82,6 +83,7 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
+        ShipType ship;
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:
                 Log.d(TAG, "ACTION_DRAG_STARTED");
@@ -94,14 +96,25 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
                 break;
             case DragEvent.ACTION_DRAG_LOCATION:
                 // TODO Check Drop-Area
+                ship = getDroppedShipType(event);
+                Ship dropShip = gameEngine.createDropShip(Orientation.VERTICAL, ship, createField(event.getX(), event.getY()));
+
+                // TODO Compare implementieren
+                if(dropMarks != dropShip.getSegments()) {
+                    dropMarks.clear();
+                    dropMarks = dropShip.getSegments();
+                    invalidate();
+                }
+
                 Log.d(TAG, "ACTION_DRAG_LOCATION X:" + event.getX() + " Y:" + event.getY());
                 Log.d(TAG, "FIELD :" + createField(event.getX(), event.getY()));
+                Log.d(TAG, "SEGMENTS :" + dropShip.getSegments());
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
                 Log.d(TAG, "ACTION_DRAG_ENDED");
                 break;
             case DragEvent.ACTION_DROP:
-                ShipType ship = getDroppedShipType(event);
+                ship = getDroppedShipType(event);
                 ships.add(gameEngine.createDropShip(Orientation.VERTICAL, ship, createField(event.getX(), event.getY())));
                 Log.d(TAG, "ACTION_DROP ClipData: " + event.getClipData() + " Ship: " + ship);
 
@@ -117,7 +130,7 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
     }
 
     private ShipType getDroppedShipType(DragEvent event) {
-        return ShipType.valueOf((String) event.getClipData().getItemAt(0).getText());
+        return ShipType.valueOf((String) event.getClipDescription().getLabel());
     }
 
     @Override
@@ -133,6 +146,7 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
         Bitmap map = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(map);
 
+        drawMarkedFields(canvas);
         drawBorder(canvas);
         drawRaster(canvas);
         drawShips(canvas);
@@ -149,12 +163,20 @@ public class MainMatrixView extends View implements View.OnDragListener, View.On
 
     // TODO Das kann noch schöner werden
     private void drawRaster(Canvas canvas) {
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.rgb(120, 140, 180));
         paint.setStrokeWidth(2);
 
         for (int i = 1; i < FILD_SIZE; i++) {
             canvas.drawLine(WIDTH / 10 * i, 0, WIDTH / 10 * i, HEIGHT, paint);
             canvas.drawLine(0, HEIGHT / 10 * i, WIDTH, HEIGHT / 10 * i, paint);
+        }
+    }
+
+    private void drawMarkedFields(Canvas canvas) {
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.argb(100, 20, 200, 90));
+        for (Segment s : dropMarks) {
+            canvas.drawRect(s.getX() * 100, s.getY() * 100, s.getX() * 100 + 100, s.getY() * 100 + 100, paint);
         }
     }
 

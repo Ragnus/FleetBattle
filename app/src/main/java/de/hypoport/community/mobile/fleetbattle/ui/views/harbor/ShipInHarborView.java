@@ -77,9 +77,8 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
         if (numberOfShips <= 0)
             return false;
 
-        ClipData.Item item = new ClipData.Item(shipPattern.type.toString());
-        String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
-        ClipData dragData = new ClipData(shipPattern.type.toString(), mimeTypes, item);
+        ClipData dragData = new ClipData(shipPattern.type.toString(),
+                new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, new ClipData.Item("Ship Drop"));
 
         View.DragShadowBuilder dragShadow = new DragShadowBuilder(v);
 
