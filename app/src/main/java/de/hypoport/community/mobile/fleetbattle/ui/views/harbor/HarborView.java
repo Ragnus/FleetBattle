@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 
 import java.util.Collection;
 
+import de.hypoport.community.mobile.fleetbattle.engine.GameEngine;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipPattern;
 
 /**
@@ -26,6 +27,7 @@ public class HarborView extends LinearLayout {
     }
 
     public void setShipPatterns(Collection<ShipPattern> shipPatterns) {
+
         for (ShipPattern shipPattern : shipPatterns) {
             ShipInHarborView shipInHarborView = new ShipInHarborView(getContext());
             shipInHarborView.setShipPattern(shipPattern);

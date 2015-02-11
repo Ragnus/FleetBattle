@@ -3,6 +3,7 @@ package de.hypoport.community.mobile.fleetbattle.ui.views.harbor;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import de.hypoport.community.mobile.fleetbattle.R;
+import de.hypoport.community.mobile.fleetbattle.engine.GameEngine;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipPattern;
-import de.hypoport.community.mobile.fleetbattle.ui.utilities.ShipResourceResolver;
 
 import static de.hypoport.community.mobile.fleetbattle.ui.utilities.ShipResourceResolver.getResource;
 
@@ -25,8 +26,6 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
     private static final String TAG = ShipInHarborView.class.getSimpleName();
     private ShipPattern shipPattern;
     private View layoutView;
-    //MPi-Todo sollte auch nach GameEngine
-    private int numberOfShips;
     private TextView tvShipCount;
 
 
@@ -52,7 +51,8 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
 
     public void setShipPattern(ShipPattern shipPattern) {
         this.shipPattern = shipPattern;
-        numberOfShips = shipPattern.numberOfShips;
+
+        GameEngine.getInstance().initShipInHarbor(shipPattern);
 
         tvShipCount = (TextView) layoutView.findViewById(R.id.tvShipCount);
         updateNumberOfShips();
@@ -74,7 +74,7 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (numberOfShips <= 0)
+        if (GameEngine.getInstance().getShipInHarbor(shipPattern) <= 0)
             return false;
 
         ClipData dragData = new ClipData(shipPattern.type.toString(),
@@ -92,21 +92,27 @@ public class ShipInHarborView extends LinearLayout implements View.OnTouchListen
         Log.d(TAG, "D&D Result: " + dropSuccess);
 
 
-
         return dropSuccess;
     }
 
     public void decrementNumberOfShips() {
-        numberOfShips--;
+        GameEngine.getInstance().decrementShipInHarbor(shipPattern);
         updateNumberOfShips();
-        if (numberOfShips==0){
-            View ship = findViewById(R.id.shipView);
-            ship.setVisibility(INVISIBLE);
-        }
     }
 
     private void updateNumberOfShips() {
-        tvShipCount.setText("[" + this.numberOfShips + "]");
-    }
+        tvShipCount.setText("[" + GameEngine.getInstance().getShipInHarbor(shipPattern) + "]");
+        if (GameEngine.getInstance().getShipInHarbor(shipPattern) == 0) {
+            View ship = findViewById(R.id.shipView);
+            ship.setVisibility(INVISIBLE);
+        }
+        }
 
+    //MPi-ToDo sicherstellen, dass nicht vorhandene Schiffe nicht gezeichnet werden
+    @Override
+    public void draw(Canvas c) {
+        updateNumberOfShips();
+        super.draw(c);
+
+    }
 }

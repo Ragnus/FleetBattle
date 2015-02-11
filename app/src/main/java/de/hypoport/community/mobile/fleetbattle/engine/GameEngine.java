@@ -1,8 +1,12 @@
 package de.hypoport.community.mobile.fleetbattle.engine;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipPattern;
 import de.hypoport.community.mobile.fleetbattle.engine.rules.ShipType;
 import de.hypoport.community.mobile.fleetbattle.ui.views.Field;
 
@@ -15,11 +19,13 @@ public class GameEngine {
     private static GameEngine instance = null;
 
     private ArrayList<Ship> shipList = null;
+    private Map<ShipType, Integer> shipInHarborMap = null;
 
     private GameEngine() {
         shipList = new ArrayList<>(asList(
                 createDropShip(Orientation.VERTICAL, ShipType.DESTROYER, new Field(4, 5)),
                 createDropShip(Orientation.HORIZONTAL, ShipType.BATTLESHIP, new Field(3, 8))));
+        shipInHarborMap = new HashMap<>();
     }
 
     public static GameEngine getInstance() {
@@ -44,5 +50,21 @@ public class GameEngine {
             }
         }
         return ship;
+    }
+
+    public int getShipInHarbor(ShipPattern shipPattern) {
+        return shipInHarborMap.get(shipPattern.type).intValue();
+    }
+
+    //MPi-ToDo sicherstellen, dass GameEngine.Init nur einmal gerufen wird --> am besten Welcome oder dort wo schiffe das erste mal bekannt .....
+    public void initShipInHarbor(ShipPattern shipPattern) {
+
+        if (!shipInHarborMap.containsKey(shipPattern.type))
+            shipInHarborMap.put(shipPattern.type, new Integer(shipPattern.numberOfShips));
+    }
+
+    public void decrementShipInHarbor(ShipPattern shipPattern) {
+        int shipsInHarbor = getShipInHarbor(shipPattern);
+        shipInHarborMap.put(shipPattern.type, new Integer(--shipsInHarbor));
     }
 }
